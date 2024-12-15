@@ -9,7 +9,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -56,6 +55,13 @@ fun LemonadeApp() {
         1 -> R.drawable.lemon_squeeze
         2 -> R.drawable.lemon_drink
         else -> R.drawable.lemon_restart
+    }
+
+    val imageDescription = when (currentIndex) {
+        0 -> R.string.lemon_tree
+        1 -> R.string.lemon
+        2 -> R.string.glass_of_lemonade
+        else -> R.string.empty_glass
     }
 
     val context = LocalContext.current
@@ -114,7 +120,7 @@ fun LemonadeApp() {
                         if (!isSqueezed) {
                             Image(
                                 painter = painterResource(imageResource),
-                                contentDescription = null,
+                                contentDescription = imageDescription.toString(),
                                 modifier = Modifier
                                     .size(200.dp)
                             )
