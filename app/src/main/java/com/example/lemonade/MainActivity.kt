@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -78,12 +79,12 @@ fun LemonadeApp() {
             ) {
                 Box(
                     modifier = Modifier
-                        .background(Color(0xFFFFEB3B))
+                        .background(Color(0xFFFFF063))
                         .fillMaxWidth()
                         .padding(16.dp),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(stringResource(R.string.app_name), color = Color.Black, fontSize = 24.sp)
+                    Text(stringResource(R.string.app_name), color = Color.Black, fontSize = 22.sp, fontWeight = FontWeight.Bold)
                 }
 
                 Column(
@@ -94,8 +95,8 @@ fun LemonadeApp() {
                     Box(
                         contentAlignment = Alignment.Center,
                         modifier = Modifier
-                            .size(300.dp)
-                            .background(Color(0xFFE0E0E0), shape = RoundedCornerShape(16.dp))
+                            .padding(bottom = 35.dp)
+                            .background(Color(0xFF93E5AB), shape = RoundedCornerShape(45.dp))
                             .clickable {
                                 when (currentIndex) {
                                     0 -> {
@@ -122,11 +123,13 @@ fun LemonadeApp() {
                                 painter = painterResource(imageResource),
                                 contentDescription = imageDescription.toString(),
                                 modifier = Modifier
+                                    .padding(30.dp, 40.dp)
                                     .size(200.dp)
                             )
                         } else {
                             AndroidView(
                                 modifier = Modifier
+                                    .padding(30.dp, 40.dp)
                                     .size(200.dp),
                                 factory = { ctx ->
                                     ImageView(ctx).apply {
@@ -138,11 +141,9 @@ fun LemonadeApp() {
                         }
                     }
 
-                    Spacer(Modifier.height(16.dp))
-
                     Text(
                         stringResource(id = imageText),
-                        fontSize = 18.sp,
+                        fontSize = 16.sp,
                         textAlign = TextAlign.Center
                     )
                 }
