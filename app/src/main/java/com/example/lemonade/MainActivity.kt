@@ -38,26 +38,32 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+/* *
+ * Interface graphique de l'application
+ * */
 @Composable
 fun LemonadeApp() {
+    // Suivi de l'état actuel de l'application (0: sélectionner, 1: presser, 2: boire, 3: redémarrer)
     var currentIndex by remember { mutableIntStateOf(0) }
+    // Nombre de pressions nécessaires pour presser le citron
     var squeezeTapCount by remember { mutableIntStateOf(0) }
+    // Indicateur si le citron est en cours de pressage
     var isSqueezed by remember { mutableStateOf(false) }
 
+    // Texte et image à afficher en fonction de l'état actuel de l'application
     val imageText = when (currentIndex) {
         0 -> R.string.select_lemon
         1 -> R.string.squeeze_lemon
         2 -> R.string.drink_lemonade
         else -> R.string.restart_process
     }
-
     val imageResource = when (currentIndex) {
         0 -> R.drawable.lemon_tree
         1 -> R.drawable.lemon_squeeze
         2 -> R.drawable.lemon_drink
         else -> R.drawable.lemon_restart
     }
-
+    // Description de l'image en fonction de l'état actuel de l'application
     val imageDescription = when (currentIndex) {
         0 -> R.string.lemon_tree
         1 -> R.string.lemon
@@ -65,6 +71,7 @@ fun LemonadeApp() {
         else -> R.string.empty_glass
     }
 
+    // Contexte pour charger l'animation depuis les ressources
     val context = LocalContext.current
     val animation = remember { AnimationUtils.loadAnimation(context, R.anim.shake_animation) }
 
@@ -77,6 +84,7 @@ fun LemonadeApp() {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                // En-tête avec le nom de l'application
                 Box(
                     modifier = Modifier
                         .background(Color(0xFFFFF063))
@@ -87,11 +95,13 @@ fun LemonadeApp() {
                     Text(stringResource(R.string.app_name), color = Color.Black, fontSize = 22.sp, fontWeight = FontWeight.Bold)
                 }
 
+                // Conteneur principal
                 Column(
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier.weight(1f), // Alloue de la place au contenu
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
+                    // Zone cliquable pour changer d'état
                     Box(
                         contentAlignment = Alignment.Center,
                         modifier = Modifier
@@ -99,12 +109,12 @@ fun LemonadeApp() {
                             .background(Color(0xFF93E5AB), shape = RoundedCornerShape(45.dp))
                             .clickable {
                                 when (currentIndex) {
-                                    0 -> {
+                                    0 -> { // Sélectionner le citron
                                         squeezeTapCount = (2..4).random()
                                         currentIndex = 1
                                     }
 
-                                    1 -> {
+                                    1 -> { // Presser le citron
                                         isSqueezed = true
                                         currentIndex =
                                             if (squeezeTapCount-- == 1) {
@@ -113,12 +123,12 @@ fun LemonadeApp() {
                                             } else currentIndex
                                     }
 
-                                    2 -> currentIndex = 3
-                                    else -> currentIndex = 0
+                                    2 -> currentIndex = 3 // Boire le jus
+                                    else -> currentIndex = 0 // Réinitialiser
                                 }
                             },
                     ) {
-                        if (!isSqueezed) {
+                        if (!isSqueezed) { // Afficher l'image de base
                             Image(
                                 painter = painterResource(imageResource),
                                 contentDescription = imageDescription.toString(),
@@ -126,7 +136,7 @@ fun LemonadeApp() {
                                     .padding(30.dp, 40.dp)
                                     .size(200.dp)
                             )
-                        } else {
+                        } else { // Afficher l'image animée
                             AndroidView(
                                 modifier = Modifier
                                     .padding(30.dp, 40.dp)
@@ -141,6 +151,7 @@ fun LemonadeApp() {
                         }
                     }
 
+                    // Texte correspondant à l'état actuel
                     Text(
                         stringResource(id = imageText),
                         fontSize = 16.sp,
@@ -152,7 +163,7 @@ fun LemonadeApp() {
     }
 }
 
-
+// Prévisualisation
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
